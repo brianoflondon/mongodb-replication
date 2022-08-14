@@ -2,17 +2,13 @@ version: '3'
 
 services:
 
-  mdb-bob:
-    container_name: mdb-bob
+  mdb-machine:
+    container_name: mdb-machine
     image: mongo:latest
-    environment:
-      - LOCAL_TAILSCALE_IP=10.20.30.40
-    env_file:
-      - ".env"
     ports:
-      - "${LOCAL_TAILSCALE_IP}:30042:27017"
+      - "${LOCAL_TAILSCALE_IP}:27027:27017"
     volumes:
-      - mongodb-data-bob:/data/db
+      - mongodb-data-machine:/data/db
     command: mongod --replSet mdb-repl
     restart: always
     logging:
@@ -22,7 +18,7 @@ services:
           max-size: "10m"
 
 volumes:
-  mongodb-data-bob:
+  mongodb-data-machine:
     driver: local
 
 
@@ -32,4 +28,4 @@ volumes:
 #
 # Use rs.add() to add the new member to the replica set. Pass the member configuration document to the method. For example, to add a member at host mongodb3.example.net, issue the following command:
 #
-# rs.add( { host: "mongodb3.example.net:27017" } )
+# rs.add( { host: "LOCAL_TAILSCALE_NAME:27027" } )
