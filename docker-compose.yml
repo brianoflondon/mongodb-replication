@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  mdb-bob:
+    container_name: mdb-bob
+    image: mongo:latest
+    environment:
+      - LOCAL_TAILSCALE_IP=10.20.30.40
+    env_file:
+      - ".env"
+    ports:
+      - "${LOCAL_TAILSCALE_IP}:30042:27017"
+    volumes:
+      - mongodb-data-bob:/data/db
+    command: mongod --replSet mdb-repl
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+          max-file: "5"
+          max-size: "10m"
+
+volumes:
+  mongodb-data-bob:
+    driver: local
+
+
+# Connect to the replica set's primary.
+#
+# You can only add members while connected to the primary. If you do not know which member is the primary, log into any member of the replica set and issue the db.hello() command.
+#
+# Use rs.add() to add the new member to the replica set. Pass the member configuration document to the method. For example, to add a member at host mongodb3.example.net, issue the following command:
+#
+# rs.add( { host: "mongodb3.example.net:27017" } )
