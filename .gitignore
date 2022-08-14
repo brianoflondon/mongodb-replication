@@ -5,6 +5,7 @@ __pycache__/
 *.vscode/*
 *.vscode
 
+docker-compose.yml
 
 # C extensions
 *.so

@@ -4,6 +4,7 @@ services:
 
   mdb-machine:
     container_name: mdb-machine
+    hostname: mdb-machine
     image: mongo:latest
     ports:
       - "${LOCAL_TAILSCALE_IP}:27027:27017"
